@@ -34,6 +34,48 @@ jobs:
 
       - name: Build EXE
         run: |
+          pyinstaller --noconfirm --clean --onefile --windowed --name "网易云定时播放" main.py
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: 网易云定时播放-Windows
+          path: dist/网易云定时播放.exeme: Build Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile main.py
+
+      - name: Build EXE
+        run: |
           pyinstaller ^
             --noconfirm ^
             --clean ^
