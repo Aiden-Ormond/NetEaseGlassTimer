@@ -1,4 +1,4 @@
-name: Build Executable
+name: Build Single File Executable
 
 on:
   push:
@@ -24,12 +24,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install PySide6 pyinstaller
 
-    - name: Build with PyInstaller
+    - name: Build Single File EXE with PyInstaller
       run: |
-        pyinstaller --noconfirm --onedir --windowed --name "NetEaseScheduler" main.py
+        pyinstaller --noconfirm --onefile --windowed --name "NetEaseScheduler" main.py
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: NetEaseScheduler-Windows-EXE
-        path: dist/NetEaseScheduler/
+        name: NetEaseScheduler-Single-EXE
+        path: dist/NetEaseScheduler.exe
